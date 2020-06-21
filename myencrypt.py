@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""
+整个用来加密的包
+"""
 
 import base64
 from Crypto.Cipher import AES

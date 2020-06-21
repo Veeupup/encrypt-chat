@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""
+RSA 加密的一些工具函数
+"""
 
 import rsa
 
@@ -38,6 +41,9 @@ def generate_key(n, filename):
         f.write(pub_key.save_pkcs1().decode())
 
 def test_load():
+    """
+    测试加载
+    """
     prikey = ''
     pubkey = ''
     with open('chat1_pri.pem', 'r') as f:
@@ -101,7 +107,7 @@ if __name__ == '__main__':
     # 生成两个用户的公钥和私钥
     # generate_key(1024, 'chat1')
     # generate_key(1024, 'chat2')
-    test_load()
+    # test_load()
 
 
 

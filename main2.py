@@ -5,7 +5,6 @@ import socket, threading
 import myencrypt
 
 IS_CHATTING = False
-# HOST_ANOTHER = '127.0.0.1'
 PORT_ANOTHER = 1000
 AES_KEY = ''
 
@@ -81,11 +80,6 @@ if __name__ == "__main__":
     print(AES_KEY)
 
     threading.Thread(target=chat_server, args=(HOST, PORT), name='server').start()
-    
-    # to_host = input('input the host who you want to talk to:')
-
-    # 这里为了本机测试，直接写成 1000
-    # threading.Thread(target=chat_client, args=(to_host, 1000), name='chat_client').start() 
     
     call_or_wait = input("input 'y' to call, input 'c' to wait: ")
 

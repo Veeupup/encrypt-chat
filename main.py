@@ -4,7 +4,6 @@ import configparser
 import socket, threading
 import myencrypt
 
-# HOST_ANOTHER = '127.0.0.1'
 IS_CHATTING = False
 PORT_ANOTHER = 2000
 AES_KEY = ''
