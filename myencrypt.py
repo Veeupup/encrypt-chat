@@ -47,6 +47,7 @@ def encrypt(key, content, prikeyname):
     my_pri_key = chat_rsa.get_private_key(prikeyname)
 
     my_sign = rsa.sign(content_padding.encode(), my_pri_key, 'SHA-1')
+    print('Have signed with', prikeyname)
 
     all_content = bytes(content_padding, encoding='utf-8') + my_sign
 
@@ -77,7 +78,7 @@ def decrypt(key, content, pubkeyname):
     his_sign = decrypt_bytes[128:256]
     
     verify = rsa.verify(bytes(result, encoding='utf-8'), decrypt_bytes[128:256], pubkey)
-    
+    print('Checking Sign......')
     if verify:
         print('Checking Sign Successfully: ', verify)
     else:

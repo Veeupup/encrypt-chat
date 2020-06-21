@@ -38,14 +38,18 @@ def chat_server(host ,port):
         global AES_KEY
 
         while True:
-            data = conn.recv(512)
-            print('=======================')
-            print('raw data from', str(addr), data)
-            decrypt_data = myencrypt.decrypt(AES_KEY, data, 'chat1_pub.pem')
-            print('after decrypt:', decrypt_data)
-            print('=======================')
-            if not data:
-                break 
+            try:
+                data = conn.recv(512)
+                print('=======================')
+                print('raw data from', str(addr), data)
+                decrypt_data = myencrypt.decrypt(AES_KEY, data, 'chat1_pub.pem')
+                print('after decrypt:', decrypt_data)
+                print('=======================')
+                if not data:
+                    break 
+            except Exception as e:
+                break
+            
             
 # 发送数据线程     
 def chat_client(host, port):
@@ -64,6 +68,7 @@ def chat_client(host, port):
             print('after aes encrypt:', encrypt_con)
             print('send it...')
             if con == 'bye':
+                print('Waiting another one to say bye...')
                 s.close()
                 break
             s.sendall(encrypt_con.encode('utf-8'))
