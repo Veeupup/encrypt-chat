@@ -2,6 +2,26 @@
 
 import rsa
 
+def get_private_key(filename):
+    '''
+    本地加载私钥文件
+    '''
+    prikey = ''
+    with open(filename, 'r') as f:
+        prikey = rsa.PrivateKey.load_pkcs1(f.read().encode())
+    
+    return prikey
+
+def get_public_key(filename):
+    '''
+    本地加载公钥文件
+    '''
+    pubkey = ''
+    with open(filename, 'r')  as f:
+        pubkey = rsa.PublicKey.load_pkcs1(f.read().encode())
+    
+    return pubkey
+
 def generate_key(n, filename):
     '''
     生成密钥文件

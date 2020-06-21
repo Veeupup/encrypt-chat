@@ -2,7 +2,7 @@
 
 import configparser
 import socket, threading
-import aes
+import myencrypt
 
 # HOST_ANOTHER = '127.0.0.1'
 IS_CHATTING = False
@@ -41,7 +41,7 @@ def chat_server(host ,port):
             data = conn.recv(512)
             print('=======================')
             print('raw data from', str(addr), data)
-            decrypt_data = aes.decrypt(AES_KEY, data)
+            decrypt_data = myencrypt.decrypt(AES_KEY, data, 'chat2_pub.pem')
             print('after decrypt:', decrypt_data)
             print('=======================')
             if not data:
@@ -60,7 +60,8 @@ def chat_client(host, port):
             
             print('=======================')
             print('raw text:', con)
-            encrypt_con = aes.encrypt(AES_KEY, con)
+            # AES 加密的密钥，加密内容，自己用于签名的私钥
+            encrypt_con = myencrypt.encrypt(AES_KEY, con, 'chat1_pri.pem')
             print('after aes encrypt:', encrypt_con)
             print('send it...')
             if con == 'bye':

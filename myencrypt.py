@@ -2,6 +2,7 @@
 
 import base64
 from Crypto.Cipher import AES
+import chat_rsa, rsa
 
 import random
 
@@ -31,7 +32,7 @@ def pkcs7unpadding(text):
     unpadding = ord(text[length-1])
     return text[0:length-unpadding]
 
-def encrypt(key, content):
+def encrypt(key, content, prikeyname):
     '''
     AES 加密，key iv同一个
     模式： cbc
@@ -40,15 +41,23 @@ def encrypt(key, content):
     key_bytes = bytes(key, encoding='utf-8')
     iv = key_bytes
     ciper = AES.new(key_bytes, AES.MODE_CBC, iv)
-    # 处理明文
+    # AES 加密处理明文
     content_padding = pkcs7padding(content)
+    
+    my_pri_key = chat_rsa.get_private_key(prikeyname)
+
+    my_sign = rsa.sign(content_padding.encode(), my_pri_key, 'SHA-1')
+
+    all_content = bytes(content_padding, encoding='utf-8') + my_sign
+
     # 加密
-    encrypt_bytes = ciper.encrypt(bytes(content_padding, encoding='utf-8'))
+    # encrypt_bytes = ciper.encrypt(bytes(content_padding, encoding='utf-8'))
+    encrypt_bytes = ciper.encrypt(all_content)
     # 重新编码
     result = str(base64.b64encode(encrypt_bytes), encoding='utf-8')
     return result
 
-def decrypt(key, content):
+def decrypt(key, content, pubkeyname):
     '''
     解密
     '''
@@ -60,7 +69,20 @@ def decrypt(key, content):
     # 解密
     decrypt_bytes = cipher.decrypt(encrypt_bytes)
     # 重新编码
-    result = str(decrypt_bytes, encoding='utf-8')
+    result = str(decrypt_bytes[:128], encoding='utf-8')
+
+    # 验证签名
+    pubkey = chat_rsa.get_public_key(pubkeyname)
+    
+    his_sign = decrypt_bytes[128:256]
+    
+    verify = rsa.verify(bytes(result, encoding='utf-8'), decrypt_bytes[128:256], pubkey)
+    
+    if verify:
+        print('Checking Sign Successfully: ', verify)
+    else:
+        print('Checking Failed!!!')
+
     # 去除填充内容
     result = pkcs7unpadding(result)
     return result
@@ -85,12 +107,12 @@ if __name__ == '__main__':
 
     # 加密
     source_en = 'Hello!'
-    encrypt_en = encrypt(aes_key, source_en)
+    encrypt_en = encrypt(aes_key, source_en, 'chat1_pri.pem')
     print('before encrypt:', source_en)
     print('after encrypt:', encrypt_en)
 
     # 解密
-    decrypt_en = decrypt(aes_key, encrypt_en)
+    decrypt_en = decrypt(aes_key, encrypt_en, 'chat1_pub.pem')
     print('after decrypt:',decrypt_en)
     print(decrypt_en == source_en)
     
