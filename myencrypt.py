@@ -111,12 +111,12 @@ if __name__ == '__main__':
 
     # 加密
     source_en = 'Hello!'
-    encrypt_en = encrypt(aes_key, source_en, 'chat1_pri.pem')
+    encrypt_en = encrypt(aes_key, source_en, './keys/chat1_pri.pem')
     print('before encrypt:', source_en)
     print('after encrypt:', encrypt_en)
 
     # 解密
-    decrypt_en = decrypt(aes_key, encrypt_en, 'chat1_pub.pem')
+    decrypt_en = decrypt(aes_key, encrypt_en, './keys/chat1_pub.pem')
     print('after decrypt:',decrypt_en)
     print(decrypt_en == source_en)
     

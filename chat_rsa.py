@@ -46,10 +46,10 @@ def test_load():
     """
     prikey = ''
     pubkey = ''
-    with open('chat1_pri.pem', 'r') as f:
+    with open('./keys/chat1_pri.pem', 'r') as f:
         prikey = rsa.PrivateKey.load_pkcs1(f.read().encode())
     
-    with open('chat1_pub.pem', 'r') as f:
+    with open('./keys/chat1_pub.pem', 'r') as f:
         pubkey = rsa.PublicKey.load_pkcs1(f.read().encode())
 
     print(prikey)
@@ -107,11 +107,9 @@ if __name__ == '__main__':
     # 生成两个用户的公钥和私钥
     # generate_key(1024, 'chat1')
     # generate_key(1024, 'chat2')
-    # test_load()
+    test_load()
 
 
 
     
-
-
 

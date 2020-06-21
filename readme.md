@@ -4,14 +4,18 @@
 
 文件说明：
 ```shell
-chat_rsa.py     -- 用于 rsa 加密的工具类
-chat1.cfg       -- 客户端1的配置
-chat1_pri.pem   -- 客户端1的RSA私钥
-chat1_pub.pem   -- 客户端1的RSA公钥
-chat2...    与客户端1的一致
+configs
+    chat1.cfg   -- 客户端 1 的配置
+    chat2.cfg   -- 客户端 2 的配置
+keys
+    chat1.cfg       -- 客户端1的配置
+    chat1_pri.pem   -- 客户端1的RSA私钥
+    chat1_pub.pem   -- 客户端1的RSA公钥
+    ...
 main.py         -- 客户端1
 main2.py        -- 客户端2
 myencrypt.py    -- 用于对文件加密解密签名的工具类
+chat_rsa.py     -- 用于 rsa 加密的工具类
 ```
 
 使用 TCP 进行通信，每次发送的报文为一个 256 字节的报文，采用 RSA 对发送的消息签名，使用 AES 对整个报文加密。

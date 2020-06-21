@@ -10,7 +10,7 @@ AES_KEY = ''
 
 def get_cfg():
     config = configparser.ConfigParser()
-    config.read('chat2.cfg', encoding='utf-8')
+    config.read('./configs/chat2.cfg', encoding='utf-8')
     port = config.get('config','port')
     host = config.get('config', 'host')
 
@@ -41,7 +41,7 @@ def chat_server(host ,port):
                 data = conn.recv(512)
                 print('=======================')
                 print('raw data from', str(addr), data)
-                decrypt_data = myencrypt.decrypt(AES_KEY, data, 'chat1_pub.pem')
+                decrypt_data = myencrypt.decrypt(AES_KEY, data, './keys/chat1_pub.pem')
                 print('after decrypt:', decrypt_data)
                 print('=======================')
                 if not data:
@@ -63,7 +63,7 @@ def chat_client(host, port):
             
             print('=======================')
             print('raw text:', con)
-            encrypt_con = myencdecrypt_data = myencrypt.encrypt(AES_KEY, con, 'chat2_pri.pem')
+            encrypt_con = myencdecrypt_data = myencrypt.encrypt(AES_KEY, con, './keys/chat2_pri.pem')
             print('after aes encrypt:', encrypt_con)
             print('send it...')
             if con == 'bye':
