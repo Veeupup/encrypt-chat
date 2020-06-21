@@ -32,6 +32,7 @@ def test_load():
     message = 'hello'
 
     sign = rsa.sign(message.encode(), prikey, 'SHA-1')
+    print(len(sign))
     print(sign)
     verify = rsa.verify(message.encode(), sign, pubkey)
     print(verify)

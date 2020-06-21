@@ -15,9 +15,10 @@ def pkcs7padding(text):
     length = len(text)
     bytes_length = len(bytes(text, encoding='utf-8'))
     # utf-8 编码，英文 1 byte，中文 3 byte
-    padding_size = length if (bytes_length == length) else bytes_length
+    # padding_size = length if (bytes_length == length) else bytes_length
     # 需要填充的字符长度
-    padding = bs - padding_size % bs
+    padding = 128 - bytes_length
+    print('message length', bytes_length, 'padding length', padding)
     # 填充的字符
     padding_text = chr(padding) * padding
     return text + padding_text

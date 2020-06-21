@@ -38,7 +38,7 @@ def chat_server(host ,port):
         global AES_KEY
 
         while True:
-            data = conn.recv(64)
+            data = conn.recv(512)
             print('=======================')
             print('raw data from', str(addr), data)
             decrypt_data = aes.decrypt(AES_KEY, data)
